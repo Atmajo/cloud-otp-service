@@ -1,6 +1,8 @@
 import express from "express";
 import { configDotenv } from "dotenv";
 import { v4 as uuid } from "uuid";
+import mysql from "mysql";
+
 configDotenv();
 
 const app = express()
@@ -11,7 +13,7 @@ app.get('/', (res, req) => {
     req.send("Welcome to Cloud OTP Service")
 })
 
-app.post('/send-otp', (res, req) => {
+app.get('/send-otp', (res, req) => {
     let otp = "";
     const phone = res.query.phone;
 
@@ -33,6 +35,11 @@ app.post('/send-otp', (res, req) => {
     } else {
         req.send("Invalid number")
     }
+})
+
+app.get("/verify-otp", (res, req) => {
+    const otp = res.query.otp;
+    req.send(otp === otp_store.otp ? "Verified" : "Not Verified");
 })
 
 app.listen(process.env.PORT, () => {
