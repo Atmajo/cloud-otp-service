@@ -14,17 +14,14 @@ import getuser from "./scripts/getuser.js";
 import otpcreate from "./scripts/otpcreate.js";
 import getotp from "./scripts/getotp.js";
 import verifyotp from "./scripts/verifyotp.js";
-import twilio from "twilio";
 import sendMail from "./mail/mail.js";
 // import usercreate from "./scripts/usercreate.js";
 // import getuser from "./scripts/getuser.js";
 // import otpcreate from "./scripts/otpcreate.js";
 // import getotp from "./scripts/getotp.js";
 // import verifyotp from "./scripts/verifyotp.js";
-// import sendMail from "./mail/mail.js";
 configDotenv();
 const app = express();
-// const client = twilio(process.env.SID, process.env.AUTH_TOKEN);
 let otp_store = {};
 app.get("/", (res, req) => {
     req.send("Welcome to Cloud OTP Service");
@@ -53,20 +50,8 @@ app.get("/send-otp", (res, req) => __awaiter(void 0, void 0, void 0, function* (
                 yield usercreate({ phone: phone });
                 const user = yield getuser({ phone: phone });
                 const otpdb = yield otpcreate({ otp: otp, userId: user === null || user === void 0 ? void 0 : user.id });
-                // client.verify.v2
-                //   .services("VA56f518df8c7cfa5e0ffe0e45a7fe5bd8")
-                //   .verifications.create({
-                //     to: `+91${phone}`,
-                //     channel: "sms",
-                //     customCode: otp,
-                //   })
-                //   .then((verification) => {
-                //     console.log(verification.sid);
-                //     req.send(`Your OTP is ${otp}`);
-                //   });
-                //send mail
                 try {
-                    sendMail({ email, otp });
+                    yield sendMail({ email, otp });
                     req.send(`Your OTP is ${otp}`);
                 }
                 catch (e) {

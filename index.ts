@@ -6,7 +6,6 @@ import getuser from "./scripts/getuser";
 import otpcreate from "./scripts/otpcreate";
 import getotp from "./scripts/getotp";
 import verifyotp from "./scripts/verifyotp";
-import twilio from "twilio";
 import sendMail from "./mail/mail";
 
 // import usercreate from "./scripts/usercreate.js";
@@ -18,8 +17,6 @@ import sendMail from "./mail/mail";
 configDotenv();
 
 const app = express();
-
-const client = twilio(process.env.SID, process.env.AUTH_TOKEN);
 
 interface OtpStore {
   id: string;
@@ -63,21 +60,10 @@ app.get("/send-otp", async (res, req) => {
         const user = await getuser({ phone: phone as string });
         const otpdb = await otpcreate({ otp: otp, userId: user?.id! });
 
-        client.verify.v2
-          .services("VA56f518df8c7cfa5e0ffe0e45a7fe5bd8")
-          .verifications.create({
-            to: `+91${phone}`,
-            channel: "sms",
-            customCode: otp,
-          })
-          .then((verification) => {
-            console.log(verification.sid);
-            req.send(`Your OTP is ${otp}`);
-          });
-
-        //send mail
-
-        try { sendMail({ email, otp }) } catch (e) { console.log(e) }
+        try {
+          await sendMail({ email, otp })
+          req.send(`Your OTP is ${otp}`);
+        } catch (e) { console.log(e) }
       }
     } catch (e) {
       console.error;

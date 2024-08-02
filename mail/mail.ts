@@ -1,19 +1,21 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
+    service: "Gmail",
+    host: 'smtp.gmail.email',
+    port: 465,
+    secure: true,
     auth: {
         user: 'atmajoc@gmail.com',
         pass: 'njaa gxhh alik ulhi'
     }
 });
 
-async function sendMail({ email, otp }: { email: string; otp: string }) {
+export default async function sendMail({ email, otp }: { email: string; otp: string }) {
     // send mail with defined transport object
     const info = await transporter.sendMail({
-        from: '"Louie Windler" <louie.windler@ethereal.email>', // sender address
-        to: email,
+        from: '"Cloud OTP Service" <atmajoc@gmail.com>', // sender address
+        to: `nahabiswassrijita@gmail.com`,
         subject: "OTP for veification", // Subject line
         text: `The OTP sent from Cloud OTP Service. Your OTP is ${otp}.`, // plain text body
         html: `<b>The OTP sent from Cloud OTP Service. Your OTP is ${otp}.</b>`, // html body
@@ -22,4 +24,3 @@ async function sendMail({ email, otp }: { email: string; otp: string }) {
     console.log("Message sent: %s", info.messageId);
 }
 
-export default sendMail

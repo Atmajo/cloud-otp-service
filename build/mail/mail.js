@@ -9,19 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
+    service: "Gmail",
+    host: 'smtp.gmail.email',
+    port: 465,
+    secure: true,
     auth: {
-        user: 'louie.windler@ethereal.email',
-        pass: '9DXtfVKqY7ZuNdeSmB'
+        user: 'atmajoc@gmail.com',
+        pass: 'njaa gxhh alik ulhi'
     }
 });
-function sendMail(_a) {
+export default function sendMail(_a) {
     return __awaiter(this, arguments, void 0, function* ({ email, otp }) {
         // send mail with defined transport object
         const info = yield transporter.sendMail({
-            from: '"Louie Windler" <louie.windler@ethereal.email>', // sender address
-            to: email,
+            from: '"Cloud OTP Service" <atmajoc@gmail.com>', // sender address
+            to: `nahabiswassrijita@gmail.com`,
             subject: "OTP for veification", // Subject line
             text: `The OTP sent from Cloud OTP Service. Your OTP is ${otp}.`, // plain text body
             html: `<b>The OTP sent from Cloud OTP Service. Your OTP is ${otp}.</b>`, // html body
@@ -29,4 +31,3 @@ function sendMail(_a) {
         console.log("Message sent: %s", info.messageId);
     });
 }
-export default sendMail;
