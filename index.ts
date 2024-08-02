@@ -7,6 +7,7 @@ import otpcreate from "./scripts/otpcreate";
 import getotp from "./scripts/getotp";
 import verifyotp from "./scripts/verifyotp";
 import twilio from "twilio";
+import sendMail from "./mail/mail";
 
 // import usercreate from "./scripts/usercreate.js";
 // import getuser from "./scripts/getuser.js";
@@ -36,6 +37,7 @@ app.get("/", (res, req) => {
 app.get("/send-otp", async (res, req) => {
   let otp = "";
   const phone = res.query.phone as string;
+  const email = res.query.email as string;
 
   function generateOtp() {
     let otpString = "";
@@ -72,6 +74,10 @@ app.get("/send-otp", async (res, req) => {
             console.log(verification.sid);
             req.send(`Your OTP is ${otp}`);
           });
+
+        //send mail
+
+        try { sendMail({ email, otp }) } catch (e) { console.log(e) }
       }
     } catch (e) {
       console.error;
