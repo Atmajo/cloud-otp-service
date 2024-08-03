@@ -10,20 +10,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
     service: "Gmail",
-    host: 'smtp.gmail.email',
+    host: "smtp.gmail.email",
     port: 465,
     secure: true,
     auth: {
-        user: 'atmajoc@gmail.com',
-        pass: 'njaa gxhh alik ulhi'
-    }
+        user: "atmajoc@gmail.com",
+        pass: "njaa gxhh alik ulhi",
+    },
 });
 export default function sendMail(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ email, otp }) {
+    return __awaiter(this, arguments, void 0, function* ({ email, otp, }) {
         // send mail with defined transport object
         const info = yield transporter.sendMail({
             from: '"Cloud OTP Service" <atmajoc@gmail.com>', // sender address
-            to: `nahabiswassrijita@gmail.com`,
+            to: "atmajo004@gmail.com",
             subject: "OTP for veification", // Subject line
             text: `The OTP sent from Cloud OTP Service. Your OTP is ${otp}.`, // plain text body
             html: `<b>The OTP sent from Cloud OTP Service. Your OTP is ${otp}.</b>`, // html body
