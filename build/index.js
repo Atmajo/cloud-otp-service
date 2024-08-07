@@ -20,6 +20,7 @@ import sendMail from "./mail/mail.js";
 // import otpcreate from "./scripts/otpcreate.js";
 // import getotp from "./scripts/getotp.js";
 // import verifyotp from "./scripts/verifyotp.js";
+// import sendMail from "./mail/mail.js";
 configDotenv();
 const app = express();
 let otp_store = {};
